@@ -14,7 +14,14 @@ export async function analyseUrl(req: Request, res: Response) {
     const pageElement = await page.$("#produtos-loop");
 
     const produtosLoopContent = await pageElement?.evaluate((element) => {
-        return element.innerHTML;
+        const products = Array.from(element.querySelectorAll(".pd-prd"));
+
+        const productTitles = products.map((product) => {
+            const titleElement = product.querySelector(".pd-prd-info-title");
+            return titleElement.innerHTML;
+        });
+
+        return productTitles;
     });
 
     console.log("loop content: ", produtosLoopContent);
