@@ -28,10 +28,19 @@ export async function analyseUrl(req: Request, res: Response) {
 
             const productDescription = productDescriptionElement.textContent;
 
+            const productCategoryElement =
+                product.closest(".pd-prd-group") ??
+                product.closest(".pd-prd-group-loop");
+
+            const productCategoryTitle = productCategoryElement.querySelector(
+                ".pd-prd-group-title span",
+            ).textContent;
+
             return {
                 title,
                 imageSrc,
                 productDescription,
+                productCategoryTitle,
             };
         });
 
