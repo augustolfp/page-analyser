@@ -16,12 +16,20 @@ export async function analyseUrl(req: Request, res: Response) {
     const produtosLoopContent = await pageElement?.evaluate((element) => {
         const products = Array.from(element.querySelectorAll(".pd-prd"));
 
-        const productTitles = products.map((product) => {
+        const productsData = products.map((product) => {
             const titleElement = product.querySelector(".pd-prd-info-title");
-            return titleElement.innerHTML;
+            const title = titleElement.innerHTML;
+
+            const imageElement = product.querySelector("img");
+            const imageSrc = imageElement.getAttribute("data-src");
+
+            return {
+                title,
+                imageSrc,
+            };
         });
 
-        return productTitles;
+        return productsData;
     });
 
     console.log("loop content: ", produtosLoopContent);
