@@ -23,9 +23,15 @@ export async function analyseUrl(req: Request, res: Response) {
             const imageElement = product.querySelector("img");
             const imageSrc = imageElement.getAttribute("data-src");
 
+            const productDescriptionElement =
+                product.querySelector(".pd-prd-info-desc");
+
+            const productDescription = productDescriptionElement.textContent;
+
             return {
                 title,
                 imageSrc,
+                productDescription,
             };
         });
 
