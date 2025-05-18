@@ -69,9 +69,18 @@ async function getProduct(productHandle: ElementHandle<any>): Promise<Product> {
         (node) => node.innerText,
     );
 
+    const description: string = await productHandle.$eval(
+        ".pd-prd-info-desc",
+        (node) => node.innerText,
+    );
+
+    const imageSrc: string = await productHandle.$eval("img", (node) =>
+        node.getAttribute("data-src"),
+    );
+
     return {
         title,
-        description: "",
-        imageSrc: "",
+        description,
+        imageSrc,
     };
 }
