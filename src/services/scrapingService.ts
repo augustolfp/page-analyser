@@ -28,16 +28,6 @@ export async function scrapePageData(url: string) {
         }),
     );
 
-    const firstCategoryProductTitles = await Promise.all(
-        productHandlesByCategory[0].productHandles.map((productHandle) => {
-            const productTitle: Promise<string> = productHandle.$eval(
-                ".pd-prd-info-title",
-                (node) => node.innerText,
-            );
-            return productTitle;
-        }),
-    );
-
     const productTitlesByCategory = await Promise.all(
         productHandlesByCategory.map(
             async ({ categoryName, productHandles }) => {
