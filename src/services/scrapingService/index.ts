@@ -1,5 +1,5 @@
 import puppeteer, { ElementHandle } from "puppeteer";
-import type { Product, Category, PageData } from "../types/index.js";
+import type { Product, Category, PageData } from "../../types/index.js";
 
 export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();

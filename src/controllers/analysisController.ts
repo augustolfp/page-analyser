@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as scrapingService from "../services/scrapingService.js";
+import * as scrapingService from "../services/scrapingService/index.js";
 // import puppeteer from "puppeteer";
 
 import decodeBase64Url from "../utils/decodeBase64Url.js";
