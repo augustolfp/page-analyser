@@ -17,7 +17,18 @@ export async function scrapePageData(url: string) {
         }),
     );
 
-    console.log("Category titles: ", categoryTitles);
+    const productHandlesByCategory = await Promise.all(
+        categoryHandles.map(async (categoryHandle, index) => {
+            const categoryProductHandles = await categoryHandle.$$(".pd-prd");
+
+            return {
+                categoryName: categoryTitles[index],
+                productHandles: categoryProductHandles,
+            };
+        }),
+    );
+
+    console.log(productHandlesByCategory);
 
     await browser.close();
 }
