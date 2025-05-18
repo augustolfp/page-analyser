@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import puppeteer from "puppeteer";
+import * as scrapingService from "../services/scrapingService.js";
+// import puppeteer from "puppeteer";
 
 import decodeBase64Url from "../utils/decodeBase64Url.js";
 
@@ -8,63 +9,47 @@ export async function analyseUrl(req: Request, res: Response) {
 
     const decodedUrl = decodeBase64Url(base64Url);
 
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto(decodedUrl);
+    const pageData = await scrapingService.scrapePageData(decodedUrl);
 
-    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+    // const pageElement = await page.$("#produtos-loop");
 
-    const categoryTitles = await Promise.all(
-        categoryHandles.map((categoryHandle) => {
-            const categoryTitle: Promise<string> = categoryHandle.$eval(
-                ".pd-prd-group-title span",
-                (node) => node.innerText,
-            );
-            return categoryTitle;
-        }),
-    );
+    // const produtosLoopContent = await pageElement?.evaluate((element) => {
+    //     const products = Array.from(element.querySelectorAll(".pd-prd"));
 
-    console.log("Category titles: ", categoryTitles);
+    //     const productsData = products.map((product) => {
+    //         const titleElement = product.querySelector(".pd-prd-info-title");
+    //         const title = titleElement.innerHTML;
 
-    const pageElement = await page.$("#produtos-loop");
+    //         const imageElement = product.querySelector("img");
+    //         const imageSrc = imageElement.getAttribute("data-src");
 
-    const produtosLoopContent = await pageElement?.evaluate((element) => {
-        const products = Array.from(element.querySelectorAll(".pd-prd"));
+    //         const productDescriptionElement =
+    //             product.querySelector(".pd-prd-info-desc");
 
-        const productsData = products.map((product) => {
-            const titleElement = product.querySelector(".pd-prd-info-title");
-            const title = titleElement.innerHTML;
+    //         const productDescription = productDescriptionElement.textContent;
 
-            const imageElement = product.querySelector("img");
-            const imageSrc = imageElement.getAttribute("data-src");
+    //         const productCategoryElement =
+    //             product.closest(".pd-prd-group") ??
+    //             product.closest(".pd-prd-group-loop");
 
-            const productDescriptionElement =
-                product.querySelector(".pd-prd-info-desc");
+    //         const productCategoryTitle = productCategoryElement.querySelector(
+    //             ".pd-prd-group-title span",
+    //         ).textContent;
 
-            const productDescription = productDescriptionElement.textContent;
+    //         return {
+    //             title,
+    //             imageSrc,
+    //             productDescription,
+    //             productCategoryTitle,
+    //         };
+    //     });
 
-            const productCategoryElement =
-                product.closest(".pd-prd-group") ??
-                product.closest(".pd-prd-group-loop");
+    //     return productsData;
+    // });
 
-            const productCategoryTitle = productCategoryElement.querySelector(
-                ".pd-prd-group-title span",
-            ).textContent;
+    // // console.log("loop content: ", produtosLoopContent);
 
-            return {
-                title,
-                imageSrc,
-                productDescription,
-                productCategoryTitle,
-            };
-        });
-
-        return productsData;
-    });
-
-    // console.log("loop content: ", produtosLoopContent);
-
-    await browser.close();
+    // await browser.close();
 
     const response = {
         url: decodedUrl,
