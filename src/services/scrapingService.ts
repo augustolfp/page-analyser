@@ -1,20 +1,5 @@
 import puppeteer, { ElementHandle } from "puppeteer";
-
-type Product = {
-    title: string;
-    description: string;
-    imageSrc: string;
-};
-
-type Category = {
-    title: string;
-    handle: ElementHandle<any>;
-    products: Product[];
-};
-
-type PageData = {
-    categories: Category[];
-};
+import type { Product, Category, PageData } from "../types/index.js";
 
 export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();
