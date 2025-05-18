@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import puppeteer, { ElementHandle } from "puppeteer";
 
 export async function scrapePageData(url: string) {
     const browser = await puppeteer.launch();
@@ -7,15 +7,8 @@ export async function scrapePageData(url: string) {
 
     const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
-    const categoryTitles = await Promise.all(
-        categoryHandles.map((categoryHandle) => {
-            const categoryTitle: Promise<string> = categoryHandle.$eval(
-                ".pd-prd-group-title span",
-                (node) => node.innerText,
-            );
-            return categoryTitle;
-        }),
-    );
+    const categoryTitles = await getCategoryTitles(categoryHandles);
+    console.log(categoryTitles);
 
     const productHandlesByCategory = await Promise.all(
         categoryHandles.map(async (categoryHandle, index) => {
@@ -49,7 +42,17 @@ export async function scrapePageData(url: string) {
         ),
     );
 
-    console.log(productTitlesByCategory);
-
     await browser.close();
+}
+
+async function getCategoryTitles(categoryHandles: ElementHandle<any>[]) {
+    return await Promise.all(
+        categoryHandles.map((categoryHandle) => {
+            const categoryTitle: Promise<string> = categoryHandle.$eval(
+                ".pd-prd-group-title span",
+                (node) => node.innerText,
+            );
+            return categoryTitle;
+        }),
+    );
 }
