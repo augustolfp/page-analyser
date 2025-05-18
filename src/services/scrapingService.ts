@@ -28,7 +28,17 @@ export async function scrapePageData(url: string) {
         }),
     );
 
-    console.log(productHandlesByCategory);
+    const firstCategoryProductTitles = await Promise.all(
+        productHandlesByCategory[0].productHandles.map((productHandle) => {
+            const productTitle: Promise<string> = productHandle.$eval(
+                ".pd-prd-info-title",
+                (node) => node.innerText,
+            );
+            return productTitle;
+        }),
+    );
+
+    console.log(firstCategoryProductTitles);
 
     await browser.close();
 }
