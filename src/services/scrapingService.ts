@@ -1,21 +1,24 @@
-import puppeteer, { ElementHandle } from "puppeteer";
+import puppeteer, { ElementHandle, Page } from "puppeteer";
 
 export async function scrapePageData(url: string) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
 
-    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+    // const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
-    const categoryTitles = await getCategoryTitles(categoryHandles);
-    console.log(categoryTitles);
+    // const categoryTitles = await getCategoryTitles(categoryHandles);
+
+    const categoriesData = await getCategoriesData(page);
+
+    console.log(categoriesData);
 
     const productHandlesByCategory = await Promise.all(
-        categoryHandles.map(async (categoryHandle, index) => {
+        categoriesData.map(async ({ categoryHandle, categoryTitle }) => {
             const categoryProductHandles = await categoryHandle.$$(".pd-prd");
 
             return {
-                categoryName: categoryTitles[index],
+                categoryTitle,
                 productHandles: categoryProductHandles,
             };
         }),
@@ -23,7 +26,7 @@ export async function scrapePageData(url: string) {
 
     const productTitlesByCategory = await Promise.all(
         productHandlesByCategory.map(
-            async ({ categoryName, productHandles }) => {
+            async ({ categoryTitle, productHandles }) => {
                 const productTitles = await Promise.all(
                     productHandles.map(async (productHandle) => {
                         const productTitle: string = await productHandle.$eval(
@@ -35,7 +38,7 @@ export async function scrapePageData(url: string) {
                 );
 
                 return {
-                    categoryName,
+                    categoryTitle,
                     productTitles,
                 };
             },
@@ -45,14 +48,26 @@ export async function scrapePageData(url: string) {
     await browser.close();
 }
 
-async function getCategoryTitles(categoryHandles: ElementHandle<any>[]) {
-    return await Promise.all(
+async function getCategoriesData(page: Page) {
+    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+
+    const categoryTitles = await Promise.all(
         categoryHandles.map((categoryHandle) => {
             const categoryTitle: Promise<string> = categoryHandle.$eval(
                 ".pd-prd-group-title span",
                 (node) => node.innerText,
             );
+
             return categoryTitle;
         }),
     );
+
+    const categoriesData = categoryHandles.map((categoryHandle, index) => {
+        return {
+            categoryHandle,
+            categoryTitle: categoryTitles[index],
+        };
+    });
+
+    return categoriesData;
 }
