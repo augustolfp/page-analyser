@@ -1,78 +1,77 @@
-import puppeteer, { ElementHandle, Page } from "puppeteer";
+import puppeteer, { ElementHandle } from "puppeteer";
 
-interface CategoryData {
-    categoryTitle: string;
-    categoryHandle: ElementHandle<any>;
-}
+type Product = {
+    title: string;
+    description: string;
+    imageSrc: string;
+};
 
-export async function scrapePageData(url: string) {
+type Category = {
+    title: string;
+    handle: ElementHandle<any>;
+    products: Product[];
+};
+
+type PageData = {
+    categories: Category[];
+};
+
+export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
 
-    // const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+    const handles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
-    // const categoryTitles = await getCategoryTitles(categoryHandles);
-
-    const categoriesData = await getCategoriesData(page);
-
-    console.log(categoriesData);
-
-    const productHandlesByCategory = await Promise.all(
-        categoriesData.map(async ({ categoryHandle, categoryTitle }) => {
-            const categoryProductHandles = await categoryHandle.$$(".pd-prd");
-
-            return {
-                categoryTitle,
-                productHandles: categoryProductHandles,
-            };
-        }),
-    );
-
-    const productTitlesByCategory = await Promise.all(
-        productHandlesByCategory.map(
-            async ({ categoryTitle, productHandles }) => {
-                const productTitles = await Promise.all(
-                    productHandles.map(async (productHandle) => {
-                        const productTitle: string = await productHandle.$eval(
-                            ".pd-prd-info-title",
-                            (node) => node.innerText,
-                        );
-                        return productTitle;
-                    }),
-                );
-
-                return {
-                    categoryTitle,
-                    productTitles,
-                };
-            },
-        ),
+    const categories = await Promise.all(
+        handles.map((handle) => getCategory(handle)),
     );
 
     await browser.close();
+
+    return {
+        categories,
+    };
 }
 
-async function getCategoriesData(page: Page): Promise<CategoryData[]> {
-    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
-
-    const categoryTitles = await Promise.all(
-        categoryHandles.map((categoryHandle) => {
-            const categoryTitle: Promise<string> = categoryHandle.$eval(
-                ".pd-prd-group-title span",
-                (node) => node.innerText,
-            );
-
-            return categoryTitle;
-        }),
+async function getCategory(
+    categoryHandle: ElementHandle<any>,
+): Promise<Category> {
+    const title: string = await categoryHandle.$eval(
+        ".pd-prd-group-title span",
+        (node) => node.innerText,
     );
 
-    const categoriesData = categoryHandles.map((categoryHandle, index) => {
-        return {
-            categoryHandle,
-            categoryTitle: categoryTitles[index],
-        };
-    });
+    const products = await getCategoryProducts(categoryHandle);
 
-    return categoriesData;
+    return {
+        title: title,
+        handle: categoryHandle,
+        products: products,
+    };
+}
+
+async function getCategoryProducts(
+    categoryHandle: ElementHandle<any>,
+): Promise<Product[]> {
+    const handles = await categoryHandle.$$(".pd-prd");
+
+    const products = await Promise.all(
+        handles.map((handle) => getProduct(handle)),
+    );
+
+    return products;
+}
+
+async function getProduct(productHandle: ElementHandle<any>): Promise<Product> {
+    const title: string = await productHandle.$eval(
+        ".pd-prd-info-title",
+        (node) => node.innerText,
+    );
+
+    return {
+        title,
+        description: "",
+        imageSrc: "",
+    };
 }
