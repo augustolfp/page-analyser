@@ -1,5 +1,10 @@
 import puppeteer, { ElementHandle, Page } from "puppeteer";
 
+interface CategoryData {
+    categoryTitle: string;
+    categoryHandle: ElementHandle<any>;
+}
+
 export async function scrapePageData(url: string) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -48,7 +53,7 @@ export async function scrapePageData(url: string) {
     await browser.close();
 }
 
-async function getCategoriesData(page: Page) {
+async function getCategoriesData(page: Page): Promise<CategoryData[]> {
     const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
     const categoryTitles = await Promise.all(
