@@ -11,6 +11,21 @@ export async function analyseUrl(req: Request, res: Response) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(decodedUrl);
+
+    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+
+    const categoryTitles = await Promise.all(
+        categoryHandles.map((categoryHandle) => {
+            const categoryTitle: Promise<string> = categoryHandle.$eval(
+                ".pd-prd-group-title span",
+                (node) => node.innerText,
+            );
+            return categoryTitle;
+        }),
+    );
+
+    console.log("Category titles: ", categoryTitles);
+
     const pageElement = await page.$("#produtos-loop");
 
     const produtosLoopContent = await pageElement?.evaluate((element) => {
@@ -47,7 +62,7 @@ export async function analyseUrl(req: Request, res: Response) {
         return productsData;
     });
 
-    console.log("loop content: ", produtosLoopContent);
+    // console.log("loop content: ", produtosLoopContent);
 
     await browser.close();
 
