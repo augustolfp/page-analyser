@@ -32,7 +32,6 @@ async function getCategory(
 
     return {
         title: title,
-        handle: categoryHandle,
         products: products,
     };
 }

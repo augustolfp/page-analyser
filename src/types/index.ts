@@ -8,7 +8,6 @@ type Product = {
 
 type Category = {
     title: string;
-    handle: ElementHandle<any>;
     products: Product[];
 };
 
