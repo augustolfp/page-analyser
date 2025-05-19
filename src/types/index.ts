@@ -1,18 +1,16 @@
-import { ElementHandle } from "puppeteer";
-
 type Product = {
     title: string;
     description: string;
     imageSrc: string;
 };
 
-type Category = {
+type ProductsCategory = {
     title: string;
     products: Product[];
 };
 
 type PageData = {
-    categories: Category[];
+    productsByCategory: ProductsCategory[];
 };
 
-export { Product, Category, PageData };
+export { Product, ProductsCategory, PageData };

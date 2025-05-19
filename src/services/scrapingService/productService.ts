@@ -1,9 +1,9 @@
 import { ElementHandle } from "puppeteer";
-import type { Product, Category } from "../../types/index.js";
+import type { Product, ProductsCategory } from "../../types/index.js";
 
 export async function getAllProductsByCategory(
     categoryHandle: ElementHandle<any>,
-): Promise<Category> {
+): Promise<ProductsCategory> {
     const title: string = await categoryHandle.$eval(
         ".pd-prd-group-title span",
         (node) => node.innerText,

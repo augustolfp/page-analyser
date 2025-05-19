@@ -9,13 +9,13 @@ export async function scrapePageData(url: string): Promise<PageData> {
 
     const handles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
-    const categories = await Promise.all(
+    const productsByCategory = await Promise.all(
         handles.map((handle) => getAllProductsByCategory(handle)),
     );
 
     await browser.close();
 
     return {
-        categories,
+        productsByCategory,
     };
 }
