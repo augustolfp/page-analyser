@@ -2,10 +2,10 @@ import { ElementHandle } from "puppeteer";
 import type { Product } from "../../types/index.js";
 
 // Recebe um ElementHandle de qualquer elemento da página e retorna uma lista com todos os produtos que são filhos (imediatos ou não) do elemento passado:
-export async function getChildrenProducts(
-    parentHandle: ElementHandle<any>,
+export async function getAllProductsFromNode(
+    parentNodeHandle: ElementHandle<any>,
 ): Promise<Product[]> {
-    const productHandles = await parentHandle.$$(".pd-prd");
+    const productHandles = await parentNodeHandle.$$(".pd-prd");
 
     const products = await Promise.all(
         productHandles.map((handle) => getProduct(handle)),
