@@ -1,17 +1,13 @@
 import puppeteer from "puppeteer";
 import type { PageData } from "../../types/index.js";
-import { getAllProductsByCategory } from "./productService.js";
+import { getAllProducts } from "./productService.js";
 
 export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
 
-    const handles = await page.$$(".pd-prd-group, pd-prd-group-loop");
-
-    const productsByCategory = await Promise.all(
-        handles.map((handle) => getAllProductsByCategory(handle)),
-    );
+    const productsByCategory = await getAllProducts(page);
 
     await browser.close();
 

@@ -1,7 +1,19 @@
-import { ElementHandle } from "puppeteer";
+import { ElementHandle, Page } from "puppeteer";
 import type { Product, ProductsCategory } from "../../types/index.js";
 
-export async function getAllProductsByCategory(
+export async function getAllProducts(page: Page): Promise<ProductsCategory[]> {
+    const categoryHandles = await page.$$(".pd-prd-group, pd-prd-group-loop");
+
+    const allProductsByCategory = await Promise.all(
+        categoryHandles.map((categoryHandle) =>
+            getProductsCategory(categoryHandle),
+        ),
+    );
+
+    return allProductsByCategory;
+}
+
+async function getProductsCategory(
     categoryHandle: ElementHandle<any>,
 ): Promise<ProductsCategory> {
     const title: string = await categoryHandle.$eval(
