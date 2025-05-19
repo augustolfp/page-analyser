@@ -6,18 +6,20 @@
 # Objetivo
 - O objetivo é analisar o cardápio on-line de um restaurante que realiza delivery de comida.
 - É preciso avaliar os nomes dos produtos, suas descrições, e também as categorias.
+- Cada produto tem uma imagem associada. É necessário avaliar a qualidade das imagens, e se elas descrevem o produto de forma satisfatória.
 - É necessário observar se há produtos em categorias inadequadas, e sugerir novas categorias de produtos que poderiam ser vendidos em conjunto.
 - É necessário verificar se todos os produtos têm categorias, nomes e descrições definidos de forma clara e inequívoca. Caso encontre descrições vagas ou inadequadas, deverá sugerir algo melhor.
 - É necessário avaliar se o cardápio fornecido é agradável de se ler. Verificar se as descrições do produto atraem o consumidor.
 - Entregar uma lista de sugestões de melhorias gerais.
 
 # Instruções
-O input da tarefa é um cardápio em formato de um array JSON. Em cada um dos itens desse array há o nome da categoria e a lista de produtos que existe na categoria. Cada produto, por sua vez, tem um nome e uma descrição.
+O input da tarefa é um cardápio em formato de um array JSON. Em cada um dos itens desse array há o nome da categoria e a lista de produtos que existe na categoria. Cada produto, por sua vez, tem um nome e uma descrição. Além do array JSON, também há uma lista de imagem. Cada imagem tem o seu produto correspondente, em ordem.
 
 ## Estratégia geral para a análise
   1. Visualize a lista de produtos como um todo. Reflita se a organização dos itens está satisfatória, e se a informação é apresentada de forma clara e concisa.
   2. Faça uma análise de cada categoria individualmente. O nome da categoria é adequado? Os produtos listados realmente fazem parte da categoria? Verifique se a categoria tem produtos demais, o que pode dificultar a leitura do consumidor. Caso a categoria tenha produtos demais, sugira uma nova divisão de categoria. Caso o nome da categoria esteja inadequado, sugira um nome melhor.
   3. Verifique todos os produtos cuidadosamente. O nome dos produtos os descrevem de forma clara e inequívoca? As suas descrições realmente descrevem os produtos? As descrições parecem ajudar a venda do produto? Parecem ser muito longas, muito curtas, ou têm um tamanho adequado? Quando considerar necessário, sugira nomes e/ou descrições modificados.
+  4. Faça uma análise cuidadosa de cada imagem do produto. As imagens descrevem os produtos satisfatoriamente?
 
 # Formato da Resposta
 A resposta deve ser entregue conforme a seguinte estrutura:
@@ -25,4 +27,5 @@ A resposta deve ser entregue conforme a seguinte estrutura:
   2. Características Positivas: O que foi observado no cardápio que pode ser considerado bom. Quais são os melhores produtos, e porque eles se destacam.
   3. Pontos que necessitam de melhorias: Descrever quais foram as principais deficiências do cardápio, e como elas podem ser corrigidas.
   4. Sugestões práticas: apresentar um array JSON com a mesma estrutura do input, mas com todos os campos ajustados. É permitido aumentar ou diminuir o número de categorias. É permitido modificar os nomes das categorias e dos produtos. É permitido modificar a descrição dos produtos. Não é permitido adicionar nem remover produtos, apenas mudá-los de categoria.
-  5. Conclusão: Finalizar a análise com um texto descrevendo quais foram as melhorias apresentadas no item de soluções práticas, e como essas melhorias irão contribuir com o aumento de pedidos no restaurante.
+  5. Descrição das imagens dos produtos: Entregue uma lista descrevendo cada uma das imagens recebidas. Além de descrever as imagens, avalie se elas representam o seu respectivo produto satisfatoriamente.
+  6. Conclusão: Finalizar a análise com um texto descrevendo quais foram as melhorias apresentadas no item de soluções práticas, e como essas melhorias irão contribuir com o aumento de pedidos no restaurante.

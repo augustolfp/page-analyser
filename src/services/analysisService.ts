@@ -4,7 +4,37 @@ import { scrapePageData } from "./scrapingService/index.js";
 import client from "../config/openAI.js";
 
 export async function getPageReport(url: string) {
-    const pageData = await scrapePageData(url);
+    const { productsByCategory } = await scrapePageData(url);
+
+    const imagesArray: string[] = [];
+    productsByCategory.map(({ products }) => {
+        return products.map(({ imageSrc }) => imagesArray.push(imageSrc));
+    });
+
+    const imagesInputs = imagesArray.map((imageUrl) => {
+        return {
+            type: "input_image",
+            image_url: imageUrl,
+        };
+    });
+
+    console.log("Array de urls: ", imagesArray);
+
+    const formatInput = productsByCategory.map(({ title, products }) => {
+        const formatProducts = products.map(({ title, description }) => {
+            return {
+                nome: title,
+                descricao: description.replace("\n", " "),
+            };
+        });
+
+        return {
+            categoria: title,
+            produtos: formatProducts,
+        };
+    });
+
+    console.log("Input formatado: ", formatInput);
 
     const pageInput = [
         {
@@ -54,8 +84,24 @@ export async function getPageReport(url: string) {
 
     const response = await client.responses.create({
         model: "gpt-4.1",
-        instructions: prompt,
-        input: JSON.stringify(pageInput),
+        // instructions: prompt,
+        // input: JSON.stringify(pageInput),
+        input: [
+            {
+                role: "developer",
+                content: prompt,
+            },
+            {
+                role: "user",
+                content: [
+                    {
+                        type: "input_text",
+                        text: JSON.stringify(formatInput),
+                    },
+                    ...imagesInputs,
+                ],
+            },
+        ],
     });
 
     console.log(response);
