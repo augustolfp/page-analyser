@@ -1,6 +1,6 @@
-import puppeteer, { ElementHandle } from "puppeteer";
-import type { Category, PageData } from "../../types/index.js";
-import { getAllProductsFromNode } from "./productService.js";
+import puppeteer from "puppeteer";
+import type { PageData } from "../../types/index.js";
+import { getAllProductsByCategory } from "./productService.js";
 
 export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();
@@ -10,28 +10,12 @@ export async function scrapePageData(url: string): Promise<PageData> {
     const handles = await page.$$(".pd-prd-group, pd-prd-group-loop");
 
     const categories = await Promise.all(
-        handles.map((handle) => getCategory(handle)),
+        handles.map((handle) => getAllProductsByCategory(handle)),
     );
 
     await browser.close();
 
     return {
         categories,
-    };
-}
-
-async function getCategory(
-    categoryHandle: ElementHandle<any>,
-): Promise<Category> {
-    const title: string = await categoryHandle.$eval(
-        ".pd-prd-group-title span",
-        (node) => node.innerText,
-    );
-
-    const products = await getAllProductsFromNode(categoryHandle);
-
-    return {
-        title: title,
-        products: products,
     };
 }
