@@ -1,6 +1,6 @@
 import puppeteer, { ElementHandle } from "puppeteer";
 import type { Category, PageData } from "../../types/index.js";
-import { getCategoryProducts } from "./productService.js";
+import { getChildrenProducts } from "./productService.js";
 
 export async function scrapePageData(url: string): Promise<PageData> {
     const browser = await puppeteer.launch();
@@ -28,7 +28,7 @@ async function getCategory(
         (node) => node.innerText,
     );
 
-    const products = await getCategoryProducts(categoryHandle);
+    const products = await getChildrenProducts(categoryHandle);
 
     return {
         title: title,
