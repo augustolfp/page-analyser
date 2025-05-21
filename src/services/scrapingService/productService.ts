@@ -59,7 +59,7 @@ async function getProduct(productHandle: ElementHandle<any>): Promise<Product> {
 
     return {
         title,
-        description,
+        description: description.replace("\n", " "),
         imageSrc,
     };
 }
