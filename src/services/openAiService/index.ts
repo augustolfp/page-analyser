@@ -71,7 +71,7 @@ export async function getOpenAiPageAnalysis(
         instructions: prompt,
         input: inputsArray,
         text: {
-            format: zodTextFormat(OutputFormat, "relatório"),
+            format: zodTextFormat(OutputFormat, "relatorio"),
         },
     });
 
