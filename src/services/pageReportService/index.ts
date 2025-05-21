@@ -13,7 +13,10 @@ export async function getPageReport(url: string) {
         imagesArray,
     );
 
-    return pageAnalysis;
+    return {
+        pageAnalysis,
+        productsByCategory,
+    };
 }
 
 function getImagesArray(productsByCategory: ProductsCategory[]): string[] {

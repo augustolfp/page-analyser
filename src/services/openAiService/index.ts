@@ -57,12 +57,7 @@ export async function getOpenAiPageAnalysis(
             textoInicial: z.string(),
             listaSugestoesMelhorias: z.array(z.string()),
         }),
-        descricaoImagens: z.array(
-            z.object({
-                urlImagem: z.string(),
-                descricaoImagem: z.string(),
-            }),
-        ),
+        descricaoImagens: z.array(z.string()),
         conclusao: z.string(),
     });
 
