@@ -13,9 +13,7 @@ export async function getPageReport(url: string) {
         imagesArray,
     );
 
-    console.log(pageAnalysis);
-
-    return;
+    return pageAnalysis;
 }
 
 function getImagesArray(productsByCategory: ProductsCategory[]): string[] {
