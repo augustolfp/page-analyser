@@ -1,15 +1,34 @@
 import { scrapePageData } from "../scrapingService/index.js";
 import { getOpenAiPageAnalysis } from "../openAiService/index.js";
+import type { ProductsCategory } from "../../types/index.js";
 
 export async function getPageReport(url: string) {
     const { productsByCategory } = await scrapePageData(url);
 
+    const imagesArray = getImagesArray(productsByCategory);
+    const formattedTextInput = getFormattedTextInput(productsByCategory);
+
+    const pageAnalysis = await getOpenAiPageAnalysis(
+        JSON.stringify(formattedTextInput),
+        imagesArray,
+    );
+
+    console.log(pageAnalysis);
+
+    return;
+}
+
+function getImagesArray(productsByCategory: ProductsCategory[]): string[] {
     const imagesArray: string[] = [];
     productsByCategory.map(({ products }) => {
         return products.map(({ imageSrc }) => imagesArray.push(imageSrc));
     });
 
-    const formatInput = productsByCategory.map(({ title, products }) => {
+    return imagesArray;
+}
+
+function getFormattedTextInput(productsByCategory: ProductsCategory[]): string {
+    const formattedInput = productsByCategory.map(({ title, products }) => {
         const formatProducts = products.map(({ title, description }) => {
             return {
                 nome: title,
@@ -23,15 +42,5 @@ export async function getPageReport(url: string) {
         };
     });
 
-    console.log(formatInput);
-    console.log(imagesArray);
-
-    const pageAnalysis = await getOpenAiPageAnalysis(
-        JSON.stringify(formatInput),
-        imagesArray,
-    );
-
-    console.log(pageAnalysis);
-
-    return;
+    return JSON.stringify(formattedInput);
 }
