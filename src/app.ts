@@ -4,9 +4,6 @@ import { getPageReport } from "./services/pageReportService/index.js";
 
 const app = express();
 
-// Servir arquivos estáticos (para importar css no handlebars):
-app.use(express.static("public"));
-
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
