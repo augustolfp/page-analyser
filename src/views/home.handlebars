@@ -1,8 +1,66 @@
 <div class="w-full">
-    <div class="container mx-auto pt-6 px-4">
-        <h1>{{pageAnalysis.titulo}}</h1>
-        <p class="underline">{{pageAnalysis.introducao}}</p>
-        <p>{{pageAnalysis.pontosPositivos.textoInicial}}</p>
-        <p>{{pageAnalysis.conclusao}}</p>
+    <div class="max-w-3xl mx-auto pt-16 px-4 text-justify">
+        <h1 class="font-extrabold text-4xl text-center">{{pageAnalysis.titulo}}</h1>
+
+        <br />
+
+        <section>
+            <h2>Introdução</h2>
+            <p>{{pageAnalysis.introducao}}</p>
+        </section>
+
+        <br />
+
+        <section>
+            <h2>Pontos Positivos</h2>
+            <p>{{pageAnalysis.pontosPositivos.textoInicial}}</p>
+            <ul class="list-disc list-inside">
+                {{#each pageAnalysis.pontosPositivos.listaPontosPositivos}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </section>
+
+        <br />
+
+        <section>
+            <h2>Pontos Negativos</h2>
+            <p>{{pageAnalysis.pontosNegativos.textoInicial}}</p>
+            <ul class="list-disc list-inside">
+                {{#each pageAnalysis.pontosNegativos.listaPontosNegativos}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </section>
+
+        <br />
+
+        <section>
+            <h2>Sugestões de Melhorias</h2>
+            <p>{{pageAnalysis.sugestoesMelhorias.textoInicial}}</p>
+            <ul class="list-disc list-inside">
+                {{#each pageAnalysis.sugestoesMelhorias.listaSugestoesMelhorias}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </section>
+
+        <br />
+
+        <section>
+            <h2>Conclusão</h2>
+            <p>{{pageAnalysis.conclusao}}</p>
+        </section>
+
+        <br />
+
+        <section>
+            <h2>Análise das imagens dos produtos</h2>
+            <ul class="list-disc list-inside">
+                {{#each pageAnalysis.descricaoImagens}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </section>
     </div>
 </div>
