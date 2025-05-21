@@ -1,5 +1,5 @@
-import { scrapePageData } from "./scrapingService/index.js";
-import { getOpenAiPageAnalysis } from "./openAiService/index.js";
+import { scrapePageData } from "../scrapingService/index.js";
+import { getOpenAiPageAnalysis } from "../openAiService/index.js";
 
 export async function getPageReport(url: string) {
     const { productsByCategory } = await scrapePageData(url);
