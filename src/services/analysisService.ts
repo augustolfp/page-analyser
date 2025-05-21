@@ -1,9 +1,10 @@
 import fs from "fs/promises";
 import { scrapePageData } from "./scrapingService/index.js";
 import client from "../config/openAI.js";
-import type { ResponseInputImage } from "openai/src/resources/responses/responses.js";
-
-import { ResponseInput } from "openai/src/resources/responses/responses.js";
+import type {
+    ResponseInput,
+    ResponseInputImage,
+} from "openai/src/resources/responses/responses.js";
 
 export async function getPageReport(url: string) {
     const { productsByCategory } = await scrapePageData(url);
@@ -62,8 +63,6 @@ export async function getPageReport(url: string) {
         instructions: prompt,
         input: inputsArray,
     });
-
-    console.log(response);
 
     return;
 }
