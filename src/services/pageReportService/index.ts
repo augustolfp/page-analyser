@@ -16,6 +16,7 @@ export async function getPageReport(url: string) {
     return {
         pageAnalysis,
         productsByCategory,
+        imagesArray,
     };
 }
 
