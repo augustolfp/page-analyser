@@ -13,7 +13,7 @@ export async function getPageReport(url: string) {
         const formatProducts = products.map(({ title, description }) => {
             return {
                 nome: title,
-                descricao: description.replace("\n", " "),
+                descricao: description,
             };
         });
 
