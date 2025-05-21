@@ -12,9 +12,14 @@ app.get("/analysis/:restaurant", async (req: Request, res: Response) => {
     const restaurant: string = req.params.restaurant;
     const fullUrl = `https://prefirodelivery.com/${restaurant}`;
 
-    const { pageAnalysis, productsByCategory } = await getPageReport(fullUrl);
+    const { pageAnalysis, productsByCategory, imagesWithDescription } =
+        await getPageReport(fullUrl);
 
-    res.render("home", { pageAnalysis, productsByCategory });
+    res.render("home", {
+        pageAnalysis,
+        productsByCategory,
+        imagesWithDescription,
+    });
 });
 
 export default app;

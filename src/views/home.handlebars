@@ -57,8 +57,11 @@
         <section>
             <h2>Análise das imagens dos produtos</h2>
             <ul class="list-disc list-inside">
-                {{#each pageAnalysis.descricaoImagens}}
-                    <li>{{this}}</li>
+                {{#each imagesWithDescription}}
+                    <li>
+                        <img src="{{this.url}}" />
+                        <p>{{this.descricao}}</p>
+                    </li>
                 {{/each}}
             </ul>
         </section>

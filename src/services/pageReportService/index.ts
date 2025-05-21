@@ -13,10 +13,19 @@ export async function getPageReport(url: string) {
         imagesArray,
     );
 
+    const imagesWithDescription = pageAnalysis?.descricaoImagens.map(
+        (descricao, index) => {
+            return {
+                url: imagesArray[index],
+                descricao,
+            };
+        },
+    );
+
     return {
         pageAnalysis,
         productsByCategory,
-        imagesArray,
+        imagesWithDescription,
     };
 }
 
