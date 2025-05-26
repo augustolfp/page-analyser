@@ -19,7 +19,21 @@ export async function scrapePageData(url: string): Promise<PageData> {
 
     await page.locator(".modal-body .informativo-confirmacao button").click();
 
+    await delay(5000);
+
+    await page.locator(".cookie-container button").click();
+
+    await delay(5000);
+
     await page.evaluate(scrollToBottom, { frequency: 100, timing: 100 });
+
+    await delay(5000);
+
+    await page.evaluate(() => {
+        window.scrollTo(0, 0);
+    });
+
+    await delay(5000);
 
     await page.screenshot({
         path: "hn.png",
