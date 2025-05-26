@@ -5,28 +5,28 @@ import type { ProductsCategory } from "../../types/index.js";
 export async function getPageReport(url: string) {
     const { productsByCategory } = await scrapePageData(url);
 
-    const imagesArray = getImagesArray(productsByCategory);
-    const formattedTextInput = getFormattedTextInput(productsByCategory);
+    // const imagesArray = getImagesArray(productsByCategory);
+    // const formattedTextInput = getFormattedTextInput(productsByCategory);
 
-    const pageAnalysis = await getOpenAiPageAnalysis(
-        JSON.stringify(formattedTextInput),
-        imagesArray,
-    );
+    // const pageAnalysis = await getOpenAiPageAnalysis(
+    //     JSON.stringify(formattedTextInput),
+    //     imagesArray,
+    // );
 
-    const imagesWithDescription = pageAnalysis?.descricaoImagens.map(
-        (descricao, index) => {
-            return {
-                url: imagesArray[index],
-                descricao,
-            };
-        },
-    );
+    // const imagesWithDescription = pageAnalysis?.descricaoImagens.map(
+    //     (descricao, index) => {
+    //         return {
+    //             url: imagesArray[index],
+    //             descricao,
+    //         };
+    //     },
+    // );
 
-    return {
-        pageAnalysis,
-        productsByCategory,
-        imagesWithDescription,
-    };
+    // return {
+    //     pageAnalysis,
+    //     productsByCategory,
+    //     imagesWithDescription,
+    // };
 }
 
 function getImagesArray(productsByCategory: ProductsCategory[]): string[] {
