@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import type { PageData } from "../../types/index.js";
 import { getAllProducts } from "./productService.js";
+import scrollToBottom from "scroll-to-bottomjs";
 
 function delay(time: number) {
     return new Promise(function (resolve) {
@@ -18,15 +19,7 @@ export async function scrapePageData(url: string): Promise<PageData> {
 
     await page.locator(".modal-body .informativo-confirmacao button").click();
 
-    await page.evaluate(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-    });
-
-    await page.evaluate(() => {
-        window.scrollTo(0, 0);
-    });
-
-    await delay(5000);
+    await page.evaluate(scrollToBottom, { frequency: 100, timing: 100 });
 
     await page.screenshot({
         path: "hn.png",
