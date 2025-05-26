@@ -29,9 +29,10 @@ export async function scrapePageData(url: string): Promise<PageData> {
 
     await delay(5000);
 
-    await page.evaluate(() => {
+    await page.evaluate(`
+        // Código executado no ambiente do Browser:
         window.scrollTo(0, 0);
-    });
+    `);
 
     await delay(5000);
 
