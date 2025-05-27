@@ -15,6 +15,23 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
         "utf-8",
     );
 
+    const input = await prepareInput(pageScreenshotFilePath);
+
+    const response = await client.responses.parse({
+        model: "gpt-4.1",
+        instructions: prompt,
+        input: input,
+        text: {
+            format: zodTextFormat(OutputFormat, "relatorio"),
+        },
+    });
+
+    return response.output_parsed;
+}
+
+async function prepareInput(
+    pageScreenshotFilePath: string,
+): Promise<ResponseInput> {
     const slicedScreenshotImages = await imageSlicer(
         pageScreenshotFilePath,
         2048,
@@ -30,25 +47,10 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
         },
     );
 
-    const inputsArray: ResponseInput = [
-        {
-            role: "developer",
-            content: prompt,
-        },
+    return [
         {
             role: "user",
             content: [...imagesInputs],
         },
     ];
-
-    const response = await client.responses.parse({
-        model: "gpt-4.1",
-        instructions: prompt,
-        input: inputsArray,
-        text: {
-            format: zodTextFormat(OutputFormat, "relatorio"),
-        },
-    });
-
-    return response.output_parsed;
 }
