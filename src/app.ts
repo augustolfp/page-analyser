@@ -14,17 +14,13 @@ app.get("/analysis/:restaurant", async (req: Request, res: Response) => {
 
     const pageReport = await getPageReport(fullUrl);
 
-    console.log(pageReport);
+    if (!pageReport) {
+        throw "Report não recebido";
+    }
 
-    // const { pageAnalysis, productsByCategory, imagesWithDescription } =
-    //     await getPageReport(fullUrl);
-
-    // res.render("home", {
-    //     pageAnalysis,
-    //     productsByCategory,
-    //     imagesWithDescription,
-    // });
-    res.sendStatus(200);
+    res.render("home", {
+        pageReport,
+    });
 });
 
 export default app;
