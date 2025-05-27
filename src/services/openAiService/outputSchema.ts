@@ -3,6 +3,24 @@ import { z } from "zod";
 export const OutputFormat = z.object({
     titulo: z.string(),
     introducao: z.string(),
+    avaliacaoCategorias: z.object({
+        textoInicial: z.string(),
+        categorias: z.array(
+            z.object({
+                nome: z.string(),
+                avaliacao: z.string(),
+            }),
+        ),
+    }),
+    avaliacaoProdutos: z.object({
+        textoInicial: z.string(),
+        produtos: z.array(
+            z.object({
+                nome: z.string(),
+                avaliacao: z.string(),
+            }),
+        ),
+    }),
     pontosPositivos: z.object({
         textoInicial: z.string(),
         listaPontosPositivos: z.array(z.string()),
@@ -15,6 +33,5 @@ export const OutputFormat = z.object({
         textoInicial: z.string(),
         listaSugestoesMelhorias: z.array(z.string()),
     }),
-    descricaoImagens: z.array(z.string()),
     conclusao: z.string(),
 });
