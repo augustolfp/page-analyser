@@ -13,30 +13,36 @@
             <section>
                 <h2>Avaliação das Categorias</h2>
                 <p>{{pageReport.avaliacaoCategorias.textoInicial}}</p>
-                <ul>
-                    {{#each pageReport.avaliacaoCategorias.categorias}}
-                        <li>
-                            <div>
-                                <h3>{{this.nome}}</h3>
-                                <p>{{this.avaliacao}}</p>
-                            </div>
-                        </li>
-                    {{/each}}
-                </ul>
+                <table>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Avaliação</th>
+                    </tr>
+                        {{#each pageReport.avaliacaoCategorias.categorias}}
+                            <tr>
+                                <td><strong>{{this.nome}}</strong></td>
+                                <td>{{this.avaliacao}}</td>
+                            </tr>
+                        {{/each}}
+                </table>
             </section>
 
 
             <section>
                 <h2>Avaliação dos Produtos</h2>
                 <p>{{pageReport.avaliacaoProdutos.textoInicial}}</p>
-                <ul>
-                    {{#each pageReport.avaliacaoProdutos.produtos}}
-                        <li>
-                            <h3>{{this.nome}}</h3>
-                            <p>{{this.avaliacao}}</p>
-                        </li>
-                    {{/each}}
-                </ul>
+                <table>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Avaliação</th>
+                    </tr>
+                        {{#each pageReport.avaliacaoProdutos.produtos}}
+                            <tr>
+                                <td><strong>{{this.nome}}</strong></td>
+                                <td>{{this.avaliacao}}</td>
+                            </tr>
+                        {{/each}}
+                </table>
             </section>
 
 
