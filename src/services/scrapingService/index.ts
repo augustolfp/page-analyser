@@ -26,21 +26,30 @@ export async function scrapePageData(url: string) {
 
     accessPage.succeed();
 
-    const closingPopUps = ora("Fechando pop-ups e modais de cookies").start();
+    const closingPopUps = ora("Fechando o modal informativo").start();
     closingPopUps.indent = 4;
     try {
         await page
             .locator(".modal-body .informativo-confirmacao button")
             .click();
 
-        await delay(5000);
-
-        await page.locator(".cookie-container button").click();
-
         closingPopUps.succeed();
     } catch (err) {
         closingPopUps.fail(
-            "Ocorreu um erro ao fechar pop-ups e modais de cookies. É possível que a página em questão não tenha modais ou pop-ups.",
+            "Ocorreu um erro ao fechar o modal informativo. É provável que a página em questão não tenha o modal.",
+        );
+    }
+
+    await delay(5000);
+
+    const closingCookies = ora("Fechando modal de cookies").start();
+    closingCookies.indent = 4;
+    try {
+        await page.locator(".cookie-container button").click();
+        closingCookies.succeed();
+    } catch (err) {
+        closingCookies.fail(
+            "Ocorreu um erro ao fechar o modal de cookies. É possível que a página em questão não tenha o modal.",
         );
     }
 
