@@ -10,7 +10,7 @@
 - É necessário avaliar se o cardápio fornecido é agradável de se ler. Verificar se as descrições do produto atraem o consumidor.
 
 # Instruções
-O input da tarefa é um cardápio em formato de um array JSON. Em cada um dos itens desse array há o nome da categoria e a lista de produtos que existe na categoria. Cada produto, por sua vez, tem um nome, uma descrição e uma imagem. Além do array JSON, também há uma lista de imagens. Cada produto tem sua imagem correspondente, em ordem.
+O input da tarefa é uma imagem. Essa imagem é uma captura de tela do cardápio on-line de um restaurante.
 
 ## Estratégia geral para a análise
   1. Visualize a lista de produtos como um todo. Reflita se a organização dos itens está satisfatória, e se a informação é apresentada de forma clara e concisa.
@@ -24,6 +24,6 @@ A resposta deve ser entregue conforme a seguinte estrutura:
   2. Introdução: Apresentar o quais foram as impressões iniciais do cardápio recebido, qual é o tipo de restaurante, a faixa de preço que ele apresenta, etc.
   3. Pontos Positivos: Apresentar um texto inicial com o que foi observado no cardápio que pode ser considerado bom. Quais são os melhores produtos, e porque eles se destacam. Além do texto inicial, apresentar também uma lista dos pontos positivos observados.
   4. Pontos Negativos: Apresentar um texto inicial que descreve quais foram as principais deficiências do cardápio, e como elas podem ser corrigidas. Além do texto inicial, apresentar também uma lista dos pontos negativos observados.
-  5. Sugestões de Melhorias: apresentar um texto inicial que fala sobre melhorias importantes. Além do texto inicial, apresentar também uma lista com sugestõea de melhoria do cardápio. É permitido sugerir a modificação de nome e descrição dos produtos. É permitido sugerir a modificação do nome de categorias. Não é permitido adicionar ou remover produtos, apenas mudá-los de categoria.
-  6. Descrição das imagens dos produtos: Entregue uma lista descrevendo cada uma das imagens recebidas. Além de descrever as imagens, avalie se elas representam o seu respectivo produto satisfatoriamente. Não é permitido, em hipótese alguma, entregar uma lista resumida de descrição de imagens de produtos. É obrigatório que a lista com descrição das imagens dos produtos descreva todas as imagens recebidas.
+  5. Sugestões de Melhorias: apresentar um texto inicial que fala sobre melhorias importantes. Além do texto inicial, apresentar também uma lista com sugestões de melhoria do cardápio. É permitido sugerir a modificação de nome e descrição dos produtos. É permitido sugerir a modificação do nome de categorias. Não é permitido adicionar ou remover produtos, apenas mudá-los de categoria.
+  6. Descrição das imagens dos produtos: Entregue uma lista descrevendo cada uma das imagens associadas aos produtos vistos no screenshot. Além de descrever as imagens, avalie se elas representam o seu respectivo produto satisfatoriamente. Não é permitido, em hipótese alguma, entregar uma lista resumida de descrição de imagens de produtos. É obrigatório que a lista com descrição das imagens dos produtos descreva todas as imagens associadas a produtos.
   7. Conclusão: Finalizar a análise com um texto descrevendo quais foram as melhorias apresentadas, e como essas melhorias irão contribuir com o aumento de pedidos no restaurante.

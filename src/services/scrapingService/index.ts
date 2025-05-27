@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer";
-import type { PageData } from "../../types/index.js";
-import { getAllProducts } from "./productService.js";
+
 import scrollToBottom from "scroll-to-bottomjs";
 import shortid from "shortid";
 
@@ -10,7 +9,7 @@ function delay(time: number) {
     });
 }
 
-export async function scrapePageData(url: string): Promise<PageData> {
+export async function scrapePageData(url: string) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
@@ -43,11 +42,7 @@ export async function scrapePageData(url: string): Promise<PageData> {
         fullPage: true,
     });
 
-    const productsByCategory = await getAllProducts(page);
-
     await browser.close();
 
-    return {
-        productsByCategory,
-    };
+    return resultFilePath;
 }

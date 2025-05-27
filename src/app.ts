@@ -12,7 +12,9 @@ app.get("/analysis/:restaurant", async (req: Request, res: Response) => {
     const restaurant: string = req.params.restaurant;
     const fullUrl = `https://prefirodelivery.com/${restaurant}`;
 
-    await getPageReport(fullUrl);
+    const pageReport = await getPageReport(fullUrl);
+
+    console.log(pageReport);
 
     // const { pageAnalysis, productsByCategory, imagesWithDescription } =
     //     await getPageReport(fullUrl);

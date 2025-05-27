@@ -8,22 +8,22 @@ import { z } from "zod";
 
 import fs from "fs/promises";
 
-export async function getOpenAiPageAnalysis(
-    textInput: string,
-    imagesUrls: string[],
-) {
+export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
     const prompt = await fs.readFile(
         "./src/services/pageReportPrompt.txt",
         "utf-8",
     );
 
-    const imagesInputs: ResponseInputImage[] = imagesUrls.map((url) => {
-        return {
-            type: "input_image",
-            image_url: url,
-            detail: "auto",
-        };
-    });
+    const base64ScreenshotImage = await fs.readFile(
+        pageScreenshotFilePath,
+        "base64",
+    );
+
+    const screenshotImageInput: ResponseInputImage = {
+        type: "input_image",
+        image_url: `data:image/png;base64,${base64ScreenshotImage}`,
+        detail: "auto",
+    };
 
     const inputsArray: ResponseInput = [
         {
@@ -34,10 +34,8 @@ export async function getOpenAiPageAnalysis(
             role: "user",
             content: [
                 {
-                    type: "input_text",
-                    text: textInput,
+                    ...screenshotImageInput,
                 },
-                ...imagesInputs,
             ],
         },
     ];
