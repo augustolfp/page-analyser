@@ -13,9 +13,7 @@ function delay(time: number) {
 
 export async function scrapePageData(url: string) {
     console.log("\nSCRAPING:");
-    const browser = await puppeteer.launch({
-        headless: false,
-    });
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
 
@@ -30,16 +28,23 @@ export async function scrapePageData(url: string) {
 
     const closingPopUps = ora("Fechando pop-ups e modais de cookies").start();
     closingPopUps.indent = 4;
+    try {
+        await page
+            .locator(".modal-body .informativo-confirmacao button")
+            .click();
 
-    await page.locator(".modal-body .informativo-confirmacao button").click();
+        await delay(5000);
+
+        await page.locator(".cookie-container button").click();
+
+        closingPopUps.succeed();
+    } catch (err) {
+        closingPopUps.fail(
+            "Ocorreu um erro ao fechar pop-ups e modais de cookies. É possível que a página em questão não tenha modais ou pop-ups.",
+        );
+    }
 
     await delay(5000);
-
-    await page.locator(".cookie-container button").click();
-
-    await delay(5000);
-
-    closingPopUps.succeed();
 
     const goToBottom = ora(
         "Rolar até o fim da página para carregar imagens lazy-loaded",
