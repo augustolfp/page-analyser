@@ -10,7 +10,7 @@
 - É necessário avaliar se o cardápio fornecido é agradável de se ler. Verificar se as descrições do produto atraem o consumidor.
 
 # Instruções
-O input da tarefa é uma imagem. Essa imagem é uma captura de tela do cardápio on-line de um restaurante.
+Você receberá como input uma lista de captura de telas. Você deverá concatenar as capturas de tela na ordem recebida para visualizar a tela por completo. Após a concatenação, você terá uma imagem cuja altura é muito maior que a largura. Essa imagem concatenada é, portanto, a captura da tela inteira do cardápio do restaurante. é extremamete importante que você retorne para o usuário a imagem concatenada.
 
 ## Estratégia geral para a análise
   1. Visualize a lista de produtos como um todo. Reflita se a organização dos itens está satisfatória, e se a informação é apresentada de forma clara e concisa.
@@ -25,5 +25,5 @@ A resposta deve ser entregue conforme a seguinte estrutura:
   3. Pontos Positivos: Apresentar um texto inicial com o que foi observado no cardápio que pode ser considerado bom. Quais são os melhores produtos, e porque eles se destacam. Além do texto inicial, apresentar também uma lista dos pontos positivos observados.
   4. Pontos Negativos: Apresentar um texto inicial que descreve quais foram as principais deficiências do cardápio, e como elas podem ser corrigidas. Além do texto inicial, apresentar também uma lista dos pontos negativos observados.
   5. Sugestões de Melhorias: apresentar um texto inicial que fala sobre melhorias importantes. Além do texto inicial, apresentar também uma lista com sugestões de melhoria do cardápio. É permitido sugerir a modificação de nome e descrição dos produtos. É permitido sugerir a modificação do nome de categorias. Não é permitido adicionar ou remover produtos, apenas mudá-los de categoria.
-  6. Descrição das imagens dos produtos: Entregue uma lista descrevendo cada uma das imagens associadas aos produtos vistos no screenshot. Além de descrever as imagens, avalie se elas representam o seu respectivo produto satisfatoriamente. Não é permitido, em hipótese alguma, entregar uma lista resumida de descrição de imagens de produtos. É obrigatório que a lista com descrição das imagens dos produtos descreva todas as imagens associadas a produtos.
+  6. Descrição das imagens: retorne uma lista que descreve cada uma das imagens identificadas na página. É OBRIGATÓRIO e EXTREMAMENTE IMPORTANTE descrever TODAS as imagens identificadas, uma a uma.
   7. Conclusão: Finalizar a análise com um texto descrevendo quais foram as melhorias apresentadas, e como essas melhorias irão contribuir com o aumento de pedidos no restaurante.
