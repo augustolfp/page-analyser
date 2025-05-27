@@ -6,5 +6,8 @@ export async function getPageReport(url: string) {
 
     const pageAnalysis = await getOpenAiPageAnalysis(pageScreenshotFilePath);
 
-    return pageAnalysis;
+    return {
+        pageAnalysis,
+        imageFilePath: pageScreenshotFilePath,
+    };
 }
