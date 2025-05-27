@@ -11,7 +11,10 @@ import ora from "ora";
 import fs from "fs/promises";
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
+    console.log("\nOPENAI API:");
+
     const importingPrompt = ora("Importanto arquivo de prompt").start();
+    importingPrompt.indent = 4;
 
     const prompt = await fs.readFile(
         "./src/services/openAiService/pageReportPrompt.txt",
@@ -23,6 +26,7 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
     const input = await prepareInput(pageScreenshotFilePath);
 
     const waitApiResponse = ora("Aguardando resposta da OpenAI API").start();
+    waitApiResponse.indent = 4;
 
     const response = await client.responses.parse({
         model: "gpt-4.1",
@@ -42,6 +46,7 @@ async function prepareInput(
     pageScreenshotFilePath: string,
 ): Promise<ResponseInput> {
     const preparingInput = ora("Fatiando screenshot verticalmente").start();
+    preparingInput.indent = 4;
 
     const slicedScreenshotImages = await imageSlicer(
         pageScreenshotFilePath,
@@ -55,6 +60,7 @@ async function prepareInput(
     const formattingInput = ora(
         "Formatando array de fatias para a OpenAI API",
     ).start();
+    formattingInput.indent = 4;
 
     const imagesInputs: ResponseInputImage[] = slicedScreenshotImages.map(
         (base64Image) => {
