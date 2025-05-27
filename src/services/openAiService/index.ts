@@ -4,8 +4,8 @@ import type {
     ResponseInputImage,
 } from "openai/src/resources/responses/responses.js";
 import { zodTextFormat } from "openai/helpers/zod.mjs";
-import { z } from "zod";
 import sharp from "sharp";
+import { OutputFormat } from "./outputSchema.js";
 
 import fs from "fs/promises";
 
@@ -70,25 +70,6 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
             content: [...imagesInputs],
         },
     ];
-
-    const OutputFormat = z.object({
-        titulo: z.string(),
-        introducao: z.string(),
-        pontosPositivos: z.object({
-            textoInicial: z.string(),
-            listaPontosPositivos: z.array(z.string()),
-        }),
-        pontosNegativos: z.object({
-            textoInicial: z.string(),
-            listaPontosNegativos: z.array(z.string()),
-        }),
-        sugestoesMelhorias: z.object({
-            textoInicial: z.string(),
-            listaSugestoesMelhorias: z.array(z.string()),
-        }),
-        descricaoImagens: z.array(z.string()),
-        conclusao: z.string(),
-    });
 
     const response = await client.responses.parse({
         model: "gpt-4.1",
