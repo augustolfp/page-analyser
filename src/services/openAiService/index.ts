@@ -11,7 +11,7 @@ import fs from "fs/promises";
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
     const prompt = await fs.readFile(
-        "./src/services/pageReportPrompt.txt",
+        "./src/services/openAiService/pageReportPrompt.txt",
         "utf-8",
     );
 
