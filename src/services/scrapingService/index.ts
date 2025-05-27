@@ -37,7 +37,7 @@ export async function scrapePageData(url: string): Promise<PageData> {
     await delay(5000);
 
     await page.screenshot({
-        path: "hn.png",
+        path: "scrapingResults/hn.png",
         fullPage: true,
     });
 
