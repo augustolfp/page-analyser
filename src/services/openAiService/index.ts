@@ -26,11 +26,8 @@ async function sliceScreenshot(pageScreenshotFilePath: string) {
             left: 0,
             width: imageWidth,
         };
-        console.log("regiao: ", region);
         return region;
     });
-
-    console.log(imageRegions);
 
     const sliceImageArray = imageRegions.map(async (imageRegion) => {
         const result = await sharp(pageScreenshotFilePath)
@@ -39,17 +36,6 @@ async function sliceScreenshot(pageScreenshotFilePath: string) {
 
         return result.toString("base64");
     });
-
-    // const result = await sharp(pageScreenshotFilePath)
-    //     .extract({
-    //         top: 0,
-    //         height: 2048,
-    //         left: 0,
-    //         width: 1920,
-    //     })
-    //     .toBuffer();
-
-    // return result.toString("base64");
 
     return await Promise.all(sliceImageArray);
 }
@@ -60,17 +46,9 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
         "utf-8",
     );
 
-    // const base64ScreenshotImage = await fs.readFile(
-    //     pageScreenshotFilePath,
-    //     "base64",
-    // );
-
-    // const base64ScreenshotImage = await sliceScreenshot(pageScreenshotFilePath);
     const slicedScreenshotImages = await sliceScreenshot(
         pageScreenshotFilePath,
     );
-
-    console.log(slicedScreenshotImages);
 
     const imagesInputs: ResponseInputImage[] = slicedScreenshotImages.map(
         (base64Image) => {
