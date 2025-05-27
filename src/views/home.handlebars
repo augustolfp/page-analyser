@@ -1,87 +1,82 @@
 <div class="w-full">
-    <div class="max-w-3xl mx-auto pt-16 px-4 text-justify">
-        <h1 class="font-extrabold text-4xl text-center">{{pageReport.titulo}}</h1>
+    <div class="max-w-4xl mx-auto pt-16 px-4">
+        <article class="prose lg:prose-xl">
+            <h1>{{pageReport.titulo}}</h1>
 
-        <br />
+            <br />
 
-        <section>
-            <h2>Introdução</h2>
-            <p>{{pageReport.introducao}}</p>
-        </section>
+            <section>
+                <h2>Introdução</h2>
+                <p>{{pageReport.introducao}}</p>
+            </section>
 
-        <br />
+            <section>
+                <h2>Avaliação das Categorias</h2>
+                <p>{{pageReport.avaliacaoCategorias.textoInicial}}</p>
+                <ul>
+                    {{#each pageReport.avaliacaoCategorias.categorias}}
+                        <li>
+                            <div>
+                                <h3>{{this.nome}}</h3>
+                                <p>{{this.avaliacao}}</p>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <section>
-            <h2>Avaliação das Categorias</h2>
-            <p>{{pageReport.avaliacaoCategorias.textoInicial}}</p>
-            <ul class="list-disc list-outside">
-                {{#each pageReport.avaliacaoCategorias.categorias}}
-                    <li>
-                        <div>
+
+            <section>
+                <h2>Avaliação dos Produtos</h2>
+                <p>{{pageReport.avaliacaoProdutos.textoInicial}}</p>
+                <ul>
+                    {{#each pageReport.avaliacaoProdutos.produtos}}
+                        <li>
                             <h3>{{this.nome}}</h3>
                             <p>{{this.avaliacao}}</p>
-                        </div>
-                    </li>
-                {{/each}}
-            </ul>
-        </section>
+                        </li>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <br />
 
-        <section>
-            <h2>Avaliação dos Produtos</h2>
-            <p>{{pageReport.avaliacaoProdutos.textoInicial}}</p>
-            <ul class="list-disc list-outside">
-                {{#each pageReport.avaliacaoProdutos.produtos}}
-                    <li>
-                        <h3>{{this.nome}}</h3>
-                        <p>{{this.avaliacao}}</p>
-                    </li>
-                {{/each}}
-            </ul>
-        </section>
+            <section>
+                <h2>Pontos Positivos</h2>
+                <p>{{pageReport.pontosPositivos.textoInicial}}</p>
+                <ul>
+                    {{#each pageReport.pontosPositivos.listaPontosPositivos}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <br />
 
-        <section>
-            <h2>Pontos Positivos</h2>
-            <p>{{pageReport.pontosPositivos.textoInicial}}</p>
-            <ul class="list-disc list-inside">
-                {{#each pageReport.pontosPositivos.listaPontosPositivos}}
-                    <li>{{this}}</li>
-                {{/each}}
-            </ul>
-        </section>
+            <section>
+                <h2>Pontos Negativos</h2>
+                <p>{{pageReport.pontosNegativos.textoInicial}}</p>
+                <ul>
+                    {{#each pageReport.pontosNegativos.listaPontosNegativos}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <br />
 
-        <section>
-            <h2>Pontos Negativos</h2>
-            <p>{{pageReport.pontosNegativos.textoInicial}}</p>
-            <ul class="list-disc list-inside">
-                {{#each pageReport.pontosNegativos.listaPontosNegativos}}
-                    <li>{{this}}</li>
-                {{/each}}
-            </ul>
-        </section>
+            <section>
+                <h2>Sugestões de Melhorias</h2>
+                <p>{{pageReport.sugestoesMelhorias.textoInicial}}</p>
+                <ul>
+                    {{#each pageReport.sugestoesMelhorias.listaSugestoesMelhorias}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <br />
 
-        <section>
-            <h2>Sugestões de Melhorias</h2>
-            <p>{{pageReport.sugestoesMelhorias.textoInicial}}</p>
-            <ul class="list-disc list-inside">
-                {{#each pageReport.sugestoesMelhorias.listaSugestoesMelhorias}}
-                    <li>{{this}}</li>
-                {{/each}}
-            </ul>
-        </section>
-
-        <br />
-
-        <section>
-            <h2>Conclusão</h2>
-            <p>{{pageReport.conclusao}}</p>
-        </section>
+            <section>
+                <h2>Conclusão</h2>
+                <p>{{pageReport.conclusao}}</p>
+            </section>
+        </article>
     </div>
 </div>
