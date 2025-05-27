@@ -10,16 +10,48 @@ import sharp from "sharp";
 import fs from "fs/promises";
 
 async function sliceScreenshot(pageScreenshotFilePath: string) {
-    const result = await sharp(pageScreenshotFilePath)
-        .extract({
-            top: 0,
-            height: 2048,
-            left: 0,
-            width: 1920,
-        })
-        .toBuffer();
+    const image = sharp(pageScreenshotFilePath);
+    const sliceHeight = 2048;
+    const { width: imageWidth, height: imageHeight } = await image.metadata();
 
-    return result.toString("base64");
+    const numberOfSlices = Math.floor(imageHeight / sliceHeight) + 1;
+    const slices = new Array(numberOfSlices).fill(0);
+    const imageRegions: sharp.Region[] = slices.map((_value, index) => {
+        const isLastSlice = numberOfSlices === index + 1;
+        const top = index * sliceHeight;
+        const height = isLastSlice ? imageHeight - top : sliceHeight;
+        const region = {
+            top: top,
+            height: height,
+            left: 0,
+            width: imageWidth,
+        };
+        console.log("regiao: ", region);
+        return region;
+    });
+
+    console.log(imageRegions);
+
+    const sliceImageArray = imageRegions.map(async (imageRegion) => {
+        const result = await sharp(pageScreenshotFilePath)
+            .extract(imageRegion)
+            .toBuffer();
+
+        return result.toString("base64");
+    });
+
+    // const result = await sharp(pageScreenshotFilePath)
+    //     .extract({
+    //         top: 0,
+    //         height: 2048,
+    //         left: 0,
+    //         width: 1920,
+    //     })
+    //     .toBuffer();
+
+    // return result.toString("base64");
+
+    return await Promise.all(sliceImageArray);
 }
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
@@ -33,13 +65,22 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
     //     "base64",
     // );
 
-    const base64ScreenshotImage = await sliceScreenshot(pageScreenshotFilePath);
+    // const base64ScreenshotImage = await sliceScreenshot(pageScreenshotFilePath);
+    const slicedScreenshotImages = await sliceScreenshot(
+        pageScreenshotFilePath,
+    );
 
-    const screenshotImageInput: ResponseInputImage = {
-        type: "input_image",
-        image_url: `data:image/png;base64,${base64ScreenshotImage}`,
-        detail: "auto",
-    };
+    console.log(slicedScreenshotImages);
+
+    const imagesInputs: ResponseInputImage[] = slicedScreenshotImages.map(
+        (base64Image) => {
+            return {
+                type: "input_image",
+                image_url: `data:image/png;base64,${base64Image}`,
+                detail: "high",
+            };
+        },
+    );
 
     const inputsArray: ResponseInput = [
         {
@@ -48,11 +89,7 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
         },
         {
             role: "user",
-            content: [
-                {
-                    ...screenshotImageInput,
-                },
-            ],
+            content: [...imagesInputs],
         },
     ];
 
