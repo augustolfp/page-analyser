@@ -17,12 +17,14 @@
     "openai": "^4.100.0",
     "puppeteer": "^24.8.2",
     "scroll-to-bottomjs": "^1.1.0",
+    "shortid": "^2.2.17",
     "zod": "^3.25.13"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.1",
     "@types/express": "^5.0.1",
     "@types/node": "^22.15.18",
+    "@types/shortid": "^2.2.0",
     "prettier": "^3.5.3",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"

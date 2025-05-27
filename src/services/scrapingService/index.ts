@@ -2,6 +2,7 @@ import puppeteer from "puppeteer";
 import type { PageData } from "../../types/index.js";
 import { getAllProducts } from "./productService.js";
 import scrollToBottom from "scroll-to-bottomjs";
+import shortid from "shortid";
 
 function delay(time: number) {
     return new Promise(function (resolve) {
@@ -36,8 +37,9 @@ export async function scrapePageData(url: string): Promise<PageData> {
 
     await delay(5000);
 
+    const resultFilePath = `scrapingResults/${shortid.generate()}.png`;
     await page.screenshot({
-        path: "scrapingResults/hn.png",
+        path: resultFilePath,
         fullPage: true,
     });
 
