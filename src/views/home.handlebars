@@ -14,11 +14,13 @@
         <section>
             <h2>Avaliação das Categorias</h2>
             <p>{{pageReport.avaliacaoCategorias.textoInicial}}</p>
-            <ul class="list-disc list-inside">
+            <ul class="list-disc list-outside">
                 {{#each pageReport.avaliacaoCategorias.categorias}}
                     <li>
-                        <h3>{{this.nome}}</h3>
-                        <p>{{this.avaliacao}}</p>
+                        <div>
+                            <h3>{{this.nome}}</h3>
+                            <p>{{this.avaliacao}}</p>
+                        </div>
                     </li>
                 {{/each}}
             </ul>
@@ -29,7 +31,7 @@
         <section>
             <h2>Avaliação dos Produtos</h2>
             <p>{{pageReport.avaliacaoProdutos.textoInicial}}</p>
-            <ul class="list-disc list-inside">
+            <ul class="list-disc list-outside">
                 {{#each pageReport.avaliacaoProdutos.produtos}}
                     <li>
                         <h3>{{this.nome}}</h3>
