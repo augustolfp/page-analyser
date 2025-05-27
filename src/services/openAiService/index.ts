@@ -5,8 +5,22 @@ import type {
 } from "openai/src/resources/responses/responses.js";
 import { zodTextFormat } from "openai/helpers/zod.mjs";
 import { z } from "zod";
+import sharp from "sharp";
 
 import fs from "fs/promises";
+
+async function sliceScreenshot(pageScreenshotFilePath: string) {
+    const result = await sharp(pageScreenshotFilePath)
+        .extract({
+            top: 0,
+            height: 2048,
+            left: 0,
+            width: 1920,
+        })
+        .toBuffer();
+
+    return result.toString("base64");
+}
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
     const prompt = await fs.readFile(
@@ -14,10 +28,12 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
         "utf-8",
     );
 
-    const base64ScreenshotImage = await fs.readFile(
-        pageScreenshotFilePath,
-        "base64",
-    );
+    // const base64ScreenshotImage = await fs.readFile(
+    //     pageScreenshotFilePath,
+    //     "base64",
+    // );
+
+    const base64ScreenshotImage = await sliceScreenshot(pageScreenshotFilePath);
 
     const screenshotImageInput: ResponseInputImage = {
         type: "input_image",
