@@ -28,7 +28,7 @@ A resposta deve ser entregue conforme a seguinte estrutura:
     - As categorias estão organizadas de forma lógica e comercial?
     - Os produtos que mais se destacam na categoria aparecem primeiro?
   
-  4. Avaliação dos Produtos: analisar cada produto individualmente, e apresentar uma lista com avaliações de todos os produtos. Responder as seguintes perguntas para cada produto:
+  4. Avaliação dos Produtos: analisar cada produto individualmente, e apresentar uma lista com avaliações de todos os produtos. É EXTREMAMENTE IMPORTANTE que você analise TODOS os produtos, e retorne a avaliação INDIVIDUAL DE CADA UM. SEMPRE apresente a avaliação individual de TODOS os produtos. TODOS, SEM EXCEÇÃO. A resposta pode ser longa, isso não é um problema. APRESENTE UMA ANÁLISE INDIVIDUAL DE CADA PRODUTO! APRESENTE UMA ANÁLISE INDIVIDUAL DE CADA PRODUTO! APRESENTE UMA ANÁLISE INDIVIDUAL DE CADA PRODUTO! APRESENTE UMA ANÁLISE INDIVIDUAL DE CADA PRODUTO! APRESENTE UMA ANÁLISE INDIVIDUAL DE CADA PRODUTO! Responder as seguintes perguntas para cada produto:
     - O nome do produto está apelativo? O nome está claro? O nome está técnico demais?
     - O nome do produto condiz com a imagem do produto?
     - A descrição do produto condiz com o nome do produto? A descrição gera apelo sensorial? A descrição está incompleta ou genérica?
