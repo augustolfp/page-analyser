@@ -1,69 +1,89 @@
 <div class="w-full">
-    <div class="max-w-3xl mx-auto pt-16 px-4 text-justify">
-        <h1 class="font-extrabold text-4xl text-center">{{pageAnalysis.titulo}}</h1>
-
-        <br />
+    <article class="max-w-4xl prose sm:prose-sm lg:prose-lg xl:prose-xl mx-auto pt-16">
+        <h1>{{pageAnalysis.titulo}}</h1>
 
         <section>
             <h2>Introdução</h2>
             <p>{{pageAnalysis.introducao}}</p>
         </section>
 
-        <br />
+        <section>
+            <h2>Avaliação das Categorias</h2>
+            <p>{{pageAnalysis.avaliacaoCategorias.textoInicial}}</p>
+            <table>
+                <tr>
+                    <th>Categoria</th>
+                    <th>Avaliação</th>
+                </tr>
+                    {{#each pageAnalysis.avaliacaoCategorias.categorias}}
+                        <tr>
+                            <td><strong>{{this.nome}}</strong></td>
+                            <td>{{this.avaliacao}}</td>
+                        </tr>
+                    {{/each}}
+            </table>
+        </section>
+
+
+        <section>
+            <h2>Avaliação dos Produtos</h2>
+            <p>{{pageAnalysis.avaliacaoProdutos.textoInicial}}</p>
+            <table>
+                <tr>
+                    <th>Produto</th>
+                    <th>Avaliação</th>
+                </tr>
+                    {{#each pageAnalysis.avaliacaoProdutos.produtos}}
+                        <tr>
+                            <td><strong>{{this.nome}}</strong></td>
+                            <td>{{this.avaliacao}}</td>
+                        </tr>
+                    {{/each}}
+            </table>
+        </section>
+
 
         <section>
             <h2>Pontos Positivos</h2>
             <p>{{pageAnalysis.pontosPositivos.textoInicial}}</p>
-            <ul class="list-disc list-inside">
+            <ul>
                 {{#each pageAnalysis.pontosPositivos.listaPontosPositivos}}
                     <li>{{this}}</li>
                 {{/each}}
             </ul>
         </section>
 
-        <br />
 
         <section>
             <h2>Pontos Negativos</h2>
             <p>{{pageAnalysis.pontosNegativos.textoInicial}}</p>
-            <ul class="list-disc list-inside">
+            <ul>
                 {{#each pageAnalysis.pontosNegativos.listaPontosNegativos}}
                     <li>{{this}}</li>
                 {{/each}}
             </ul>
         </section>
 
-        <br />
 
         <section>
             <h2>Sugestões de Melhorias</h2>
             <p>{{pageAnalysis.sugestoesMelhorias.textoInicial}}</p>
-            <ul class="list-disc list-inside">
+            <ul>
                 {{#each pageAnalysis.sugestoesMelhorias.listaSugestoesMelhorias}}
                     <li>{{this}}</li>
                 {{/each}}
             </ul>
         </section>
 
-        <br />
 
         <section>
             <h2>Conclusão</h2>
             <p>{{pageAnalysis.conclusao}}</p>
         </section>
-
-        <br />
-
+        
         <section>
-            <h2>Análise das imagens dos produtos</h2>
-            <ul class="list-disc list-inside">
-                {{#each imagesWithDescription}}
-                    <li>
-                        <img src="{{this.url}}" />
-                        <p>{{this.descricao}}</p>
-                    </li>
-                {{/each}}
-            </ul>
+            <h2>Screenshot utilizado na Análise</h2>
+            <img src={{screenshot}} />
         </section>
-    </div>
+    </article>
 </div>

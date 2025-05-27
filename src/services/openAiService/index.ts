@@ -4,71 +4,80 @@ import type {
     ResponseInputImage,
 } from "openai/src/resources/responses/responses.js";
 import { zodTextFormat } from "openai/helpers/zod.mjs";
-import { z } from "zod";
+import { OutputFormat } from "./outputSchema.js";
+import imageSlicer from "./imageSlicer.js";
+import ora from "ora";
 
 import fs from "fs/promises";
 
-export async function getOpenAiPageAnalysis(
-    textInput: string,
-    imagesUrls: string[],
-) {
+export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
+    console.log("\nOPENAI API:");
+
+    const importingPrompt = ora("Importanto arquivo de prompt").start();
+    importingPrompt.indent = 4;
+
     const prompt = await fs.readFile(
-        "./src/services/pageReportPrompt.txt",
+        "./src/services/openAiService/pageReportPrompt.txt",
         "utf-8",
     );
 
-    const imagesInputs: ResponseInputImage[] = imagesUrls.map((url) => {
-        return {
-            type: "input_image",
-            image_url: url,
-            detail: "auto",
-        };
-    });
+    importingPrompt.succeed();
 
-    const inputsArray: ResponseInput = [
-        {
-            role: "developer",
-            content: prompt,
-        },
-        {
-            role: "user",
-            content: [
-                {
-                    type: "input_text",
-                    text: textInput,
-                },
-                ...imagesInputs,
-            ],
-        },
-    ];
+    const input = await prepareInput(pageScreenshotFilePath);
 
-    const OutputFormat = z.object({
-        titulo: z.string(),
-        introducao: z.string(),
-        pontosPositivos: z.object({
-            textoInicial: z.string(),
-            listaPontosPositivos: z.array(z.string()),
-        }),
-        pontosNegativos: z.object({
-            textoInicial: z.string(),
-            listaPontosNegativos: z.array(z.string()),
-        }),
-        sugestoesMelhorias: z.object({
-            textoInicial: z.string(),
-            listaSugestoesMelhorias: z.array(z.string()),
-        }),
-        descricaoImagens: z.array(z.string()),
-        conclusao: z.string(),
-    });
+    const waitApiResponse = ora("Aguardando resposta da OpenAI API").start();
+    waitApiResponse.indent = 4;
 
     const response = await client.responses.parse({
         model: "gpt-4.1",
         instructions: prompt,
-        input: inputsArray,
+        input: input,
         text: {
             format: zodTextFormat(OutputFormat, "relatorio"),
         },
     });
 
+    waitApiResponse.succeed();
+
     return response.output_parsed;
+}
+
+async function prepareInput(
+    pageScreenshotFilePath: string,
+): Promise<ResponseInput> {
+    const preparingInput = ora("Fatiando screenshot verticalmente").start();
+    preparingInput.indent = 4;
+
+    const slicedScreenshotImages = await imageSlicer(
+        pageScreenshotFilePath,
+        2048,
+    );
+
+    preparingInput.succeed(
+        `Screenshot fatiado com sucesso. ${slicedScreenshotImages.length} fatias verticais.`,
+    );
+
+    const formattingInput = ora(
+        "Formatando array de fatias para a OpenAI API",
+    ).start();
+    formattingInput.indent = 4;
+
+    const imagesInputs: ResponseInputImage[] = slicedScreenshotImages.map(
+        (base64Image) => {
+            return {
+                type: "input_image",
+                image_url: `data:image/png;base64,${base64Image}`,
+                detail: "high",
+            };
+        },
+    );
+
+    formattingInput.succeed();
+
+    return [
+        {
+            role: "user",
+            content: [...imagesInputs],
+        },
+    ];
 }
