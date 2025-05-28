@@ -85,6 +85,16 @@ http://localhost:3000/analysis/aHR0cHM6Ly93d3cuY29udGVtZnJhbmdvLmNvbS5ici8
 
 Após acessar a URL pelo navegador, basta aguardar a geração do relatório. É possível acompanhar o progresso através do _console_ do Node.JS.
 
+# Vídeo Explicativo
+
+Acompanhe o passo-a-passo de utilização da API por <a href="https://drive.google.com/file/d/1Q4YaHvCQYh3A9I2CMoOuCgojaLbf6QPJ/view?usp=sharing">vídeo</a>.
+
+> ### _Timestamps:_
+>
+> - 00:00 até 11:00 => Utilizando a API no modo _Headless_ (modo padrão)
+> - 11:00 até 14:30 => Utilizando a API no modo _Headful_ (modo debug)
+> - 14:30 até o final => Explicando os detalhes da API
+
 # Tecnologias Utilizadas
 
 - Node.JS + Express + Typescript
