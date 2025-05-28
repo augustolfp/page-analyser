@@ -6,7 +6,7 @@ import type {
 import { zodTextFormat } from "openai/helpers/zod.mjs";
 import { OutputFormat } from "./outputSchema.js";
 import imageSlicer from "./imageSlicer.js";
-
+import ora from "ora";
 import fs from "fs/promises";
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
@@ -17,6 +17,8 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
 
     const input = await prepareInput(pageScreenshotFilePath);
 
+    const waitApiResponse = ora("Aguardando resposta da OpenAI API").start();
+
     const response = await client.responses.parse({
         model: "gpt-4.1",
         instructions: prompt,
@@ -25,6 +27,8 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
             format: zodTextFormat(OutputFormat, "relatorio"),
         },
     });
+
+    waitApiResponse.succeed();
 
     return response.output_parsed;
 }
