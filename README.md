@@ -63,18 +63,24 @@ A API já está pronta para o uso. Mantenha o console aberto para acompanhar as 
 
 # Utilização da API
 
-Para utilizar a API, acesse pelo navegador a seguinte URL, substituindo o nome do restaurante:
+Para gerar o relatório de um cardápio on-line, basta acessar pelo seu navegador a seguinte URL:
 
 ```
-http://localhost:3000/analysis/<nome_do_restaurante>
+http://localhost:3000/analysis/<URL_do_cardápio_Base_64_URL_Encoded>
 ```
+
+Para obter a URL do cardápio em **Base64Url**, é possível utilizar qualquer ferramenta on-line, como o <a href="https://base64.guru/standards/base64url/encode">Base64Guru</a>.
 
 ## Exemplo
 
-Para o restaurante **cardapinfit**, a URL a ser acessada seria:
+Para o restaurante **Contém Frango**, obtém-se a sua URL Base64Url encoded:
+
+> https://www.contemfrango.com.br/ => **aHR0cHM6Ly93d3cuY29udGVtZnJhbmdvLmNvbS5ici8**
+
+Agora, basta acessar com o navegador a seguinte URL:
 
 ```
-http://localhost:3000/analysis/cardapinfit
+http://localhost:3000/analysis/aHR0cHM6Ly93d3cuY29udGVtZnJhbmdvLmNvbS5ici8
 ```
 
 Após acessar a URL pelo navegador, basta aguardar a geração do relatório. É possível acompanhar o progresso através do _console_ do Node.JS.
@@ -85,3 +91,4 @@ Após acessar a URL pelo navegador, basta aguardar a geração do relatório. É
 - Puppeteer (WebScraping)
 - Zod (Schemas)
 - OpenAI API (Inteligência Artificial)
+- Sharp (Processamento de Imagens)
