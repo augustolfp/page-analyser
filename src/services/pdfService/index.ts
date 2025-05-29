@@ -37,6 +37,18 @@ export default async function createPdf(fileName: string, content: string) {
         openAiResultExample.avaliacaoCategorias.textoInicial,
     );
 
+    const avaliacaoCategoriasTable =
+        openAiResultExample.avaliacaoCategorias.categorias.map(
+            ({ nome, avaliacao }) => {
+                return [nome, avaliacao];
+            },
+        );
+
+    // @ts-ignore
+    doc.table({
+        data: avaliacaoCategoriasTable,
+    });
+
     doc.moveDown();
 
     doc.fontSize(heading2.size).text("Avaliação dos Produtos");
