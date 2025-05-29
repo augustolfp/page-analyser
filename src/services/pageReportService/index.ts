@@ -9,8 +9,8 @@ export async function getPageReport(url: string) {
     const pageAnalysis = await getOpenAiPageAnalysis(pageScreenshotFilePath);
 
     const reportFilePath = await createPdf(
-        `${shortid.generate()}.pdf`,
-        JSON.stringify(pageAnalysis),
+        `${shortid.generate()}`,
+        pageAnalysis,
     );
 
     return {

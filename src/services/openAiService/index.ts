@@ -8,8 +8,13 @@ import { OutputFormat } from "./outputSchema.js";
 import imageSlicer from "./imageSlicer.js";
 import ora from "ora";
 import fs from "fs/promises";
+import { z } from "zod";
 
-export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
+type Content = z.infer<typeof OutputFormat>;
+
+export async function getOpenAiPageAnalysis(
+    pageScreenshotFilePath: string,
+): Promise<Content> {
     const prompt = await fs.readFile(
         "./src/services/openAiService/pageReportPrompt.txt",
         "utf-8",
@@ -30,7 +35,7 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
 
     waitApiResponse.succeed();
 
-    return response.output_parsed;
+    return response.output_parsed as Content;
 }
 
 async function prepareInput(
