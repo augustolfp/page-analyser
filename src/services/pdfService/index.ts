@@ -56,6 +56,18 @@ export default async function createPdf(fileName: string, content: string) {
         openAiResultExample.avaliacaoProdutos.textoInicial,
     );
 
+    const avaliacaoProdutosTable =
+        openAiResultExample.avaliacaoProdutos.produtos.map(
+            ({ nome, avaliacao }) => {
+                return [nome, avaliacao];
+            },
+        );
+
+    // @ts-ignore
+    doc.table({
+        data: avaliacaoProdutosTable,
+    });
+
     doc.moveDown();
 
     doc.fontSize(heading2.size).text("Pontos Positivos");
