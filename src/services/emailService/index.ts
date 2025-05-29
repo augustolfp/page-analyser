@@ -21,6 +21,7 @@ export default async function sendEmail(
     const mailOptions = {
         from: process.env.SENDER_EMAIL, // Sender address from environment variables.
         to: `${recipientName} <${recipientEmail}>`, // Recipient's name and email address.
+        bcc: `${process.env.NOME_PESSOA_COPIA_OCULTA} <${process.env.EMAIL_PESSOA_COPIA_OCULTA}>`,
         replyTo: process.env.REPLY_TO, // Sets the email address for recipient responses.
         subject: subject, // Subject line.
         text: message, // Plaintext body.
