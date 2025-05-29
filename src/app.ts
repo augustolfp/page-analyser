@@ -16,34 +16,33 @@ app.post("/analysis", async (req: Request, res: Response) => {
     );
 
     const gerandoReport = ora("Gerando report em PDF").start();
-    const { reportFilePath, imageFilePath } =
-        await getPageReport(urlRestaurante);
+    await getPageReport(urlRestaurante);
     gerandoReport.succeed();
 
-    const enviandoEmail = ora("Enviado report via email").start();
-    await sendEmail(
-        nomeCliente,
-        emailCliente,
-        "Avaliação do Cardápio por IA",
-        `
-        Olá ${nomeCliente}!
-        \n
-        Segue em anexo o relatório do cardápio de ${nomeRestaurante}, gerado por Inteligência Artificial.
-        Esperamos que este traga insights valiosos.
-        \n
-        Atenciosamente,
-        Equipe Prefiro Delivery
-        `,
-        [
-            {
-                path: reportFilePath,
-            },
-            {
-                path: imageFilePath,
-            },
-        ],
-    );
-    enviandoEmail.succeed();
+    // const enviandoEmail = ora("Enviado report via email").start();
+    // await sendEmail(
+    //     nomeCliente,
+    //     emailCliente,
+    //     "Avaliação do Cardápio por IA",
+    //     `
+    //     Olá ${nomeCliente}!
+    //     \n
+    //     Segue em anexo o relatório do cardápio de ${nomeRestaurante}, gerado por Inteligência Artificial.
+    //     Esperamos que este traga insights valiosos.
+    //     \n
+    //     Atenciosamente,
+    //     Equipe Prefiro Delivery
+    //     `,
+    //     [
+    //         {
+    //             path: reportFilePath,
+    //         },
+    //         {
+    //             path: imageFilePath,
+    //         },
+    //     ],
+    // );
+    // enviandoEmail.succeed();
 });
 
 export default app;
