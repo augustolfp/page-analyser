@@ -9,18 +9,22 @@ app.use(express.json(), cors());
 app.post("/analysis", async (req: Request, res: Response) => {
     const url = req.body.url;
 
+    const { reportFilePath, imageFilePath } = await getPageReport(url);
+
     await sendEmail(
         "Augusto Lopes",
         "augustolfp@gmail.com",
         "Teste de SMTP",
         "Boa tarde!",
+        [
+            {
+                path: reportFilePath,
+            },
+            {
+                path: imageFilePath,
+            },
+        ],
     );
-    // const { pageAnalysis } = await getPageReport(url);
-    getPageReport(url);
-
-    // if (!pageAnalysis || !imageFilePath) {
-    //     throw "Report não recebido";
-    // }
 
     res.status(201).send("Geração de relatório triggada");
 });

@@ -15,6 +15,7 @@ export default async function sendEmail(
     recipientEmail: string,
     subject: string,
     message: string,
+    attachments: { path: string }[],
 ) {
     // Prepare the email message options.
     const mailOptions = {
@@ -23,18 +24,7 @@ export default async function sendEmail(
         replyTo: process.env.REPLY_TO, // Sets the email address for recipient responses.
         subject: subject, // Subject line.
         text: message, // Plaintext body.
-        attachments: [
-            // 3. Local file (streamed)
-            {
-                filename: "contemFrango.pdf",
-                path: "scrapingResults/contemFrango.pdf",
-            },
-
-            // 4. Implicit filename & type (derived from path)
-            {
-                path: "scrapingResults/5mWgaY7F1.png",
-            },
-        ],
+        attachments: attachments,
     };
 
     // Send email and log the response.
