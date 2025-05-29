@@ -1,31 +1,49 @@
 import express, { Request, Response } from "express";
-import { engine } from "express-handlebars";
 import { getPageReport } from "./services/pageReportService/index.js";
-import fs from "fs/promises";
-import decodeBase64Url from "./utils/decodeBase64Url.js";
+import cors from "cors";
+import sendEmail from "./services/emailService/index.js";
+import ora from "ora";
 
 const app = express();
+app.use(express.json(), cors());
 
-app.engine("handlebars", engine());
-app.set("view engine", "handlebars");
-app.set("views", "./src/views");
+app.post("/analysis", async (req: Request, res: Response) => {
+    const { urlRestaurante, nomeRestaurante, emailCliente, nomeCliente } =
+        req.body;
 
-app.get("/analysis/:base64Url", async (req: Request, res: Response) => {
-    const base64Url: string = req.params.base64Url;
-    const fullUrl = decodeBase64Url(base64Url);
+    res.status(201).send(
+        "Geração de relatório iniciada com sucesso. O resultado será recebido via e-mail.",
+    );
 
-    const { pageAnalysis, imageFilePath } = await getPageReport(fullUrl);
+    const gerandoReport = ora("Gerando report em PDF").start();
+    const { reportFilePath, imageFilePath } =
+        await getPageReport(urlRestaurante);
+    gerandoReport.succeed();
 
-    if (!pageAnalysis || !imageFilePath) {
-        throw "Report não recebido";
-    }
-
-    const base64Screenshot = await fs.readFile(imageFilePath, "base64");
-
-    res.render("home", {
-        pageAnalysis,
-        screenshot: `data:image/png;base64,${base64Screenshot}`,
-    });
+    const enviandoEmail = ora("Enviado report via email").start();
+    await sendEmail(
+        nomeCliente,
+        emailCliente,
+        "Avaliação do Cardápio por IA",
+        `
+        Olá ${nomeCliente}!
+        \n
+        Segue em anexo o relatório do cardápio de ${nomeRestaurante}, gerado por Inteligência Artificial.
+        Esperamos que este traga insights valiosos.
+        \n
+        Atenciosamente,
+        Equipe Prefiro Delivery
+        `,
+        [
+            {
+                path: reportFilePath,
+            },
+            {
+                path: imageFilePath,
+            },
+        ],
+    );
+    enviandoEmail.succeed();
 });
 
 export default app;

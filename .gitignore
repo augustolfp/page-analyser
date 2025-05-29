@@ -3,3 +3,4 @@ dist/
 .env
 
 scrapingResults/*.png
+generatedReports/*.pdf

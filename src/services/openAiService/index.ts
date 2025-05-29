@@ -7,26 +7,17 @@ import { zodTextFormat } from "openai/helpers/zod.mjs";
 import { OutputFormat } from "./outputSchema.js";
 import imageSlicer from "./imageSlicer.js";
 import ora from "ora";
-
 import fs from "fs/promises";
 
 export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
-    console.log("\nOPENAI API:");
-
-    const importingPrompt = ora("Importanto arquivo de prompt").start();
-    importingPrompt.indent = 4;
-
     const prompt = await fs.readFile(
         "./src/services/openAiService/pageReportPrompt.txt",
         "utf-8",
     );
 
-    importingPrompt.succeed();
-
     const input = await prepareInput(pageScreenshotFilePath);
 
     const waitApiResponse = ora("Aguardando resposta da OpenAI API").start();
-    waitApiResponse.indent = 4;
 
     const response = await client.responses.parse({
         model: "gpt-4.1",
@@ -45,22 +36,10 @@ export async function getOpenAiPageAnalysis(pageScreenshotFilePath: string) {
 async function prepareInput(
     pageScreenshotFilePath: string,
 ): Promise<ResponseInput> {
-    const preparingInput = ora("Fatiando screenshot verticalmente").start();
-    preparingInput.indent = 4;
-
     const slicedScreenshotImages = await imageSlicer(
         pageScreenshotFilePath,
         2048,
     );
-
-    preparingInput.succeed(
-        `Screenshot fatiado com sucesso. ${slicedScreenshotImages.length} fatias verticais.`,
-    );
-
-    const formattingInput = ora(
-        "Formatando array de fatias para a OpenAI API",
-    ).start();
-    formattingInput.indent = 4;
 
     const imagesInputs: ResponseInputImage[] = slicedScreenshotImages.map(
         (base64Image) => {
@@ -71,8 +50,6 @@ async function prepareInput(
             };
         },
     );
-
-    formattingInput.succeed();
 
     return [
         {
