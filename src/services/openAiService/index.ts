@@ -2,7 +2,7 @@ import client from "../../config/openAI.js";
 import type {
     ResponseInput,
     ResponseInputImage,
-} from "openai/src/resources/responses/responses.js";
+} from "openai/resources/responses/responses.mjs";
 import { zodTextFormat } from "openai/helpers/zod.mjs";
 import { OutputFormat } from "./outputSchema.js";
 import imageSlicer from "./imageSlicer.js";
