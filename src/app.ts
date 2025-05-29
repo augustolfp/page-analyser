@@ -8,13 +8,14 @@ app.use(express.json(), cors());
 app.post("/analysis", async (req: Request, res: Response) => {
     const url = req.body.url;
 
-    const { pageAnalysis, imageFilePath } = await getPageReport(url);
+    // const { pageAnalysis } = await getPageReport(url);
+    getPageReport(url);
 
-    if (!pageAnalysis || !imageFilePath) {
-        throw "Report não recebido";
-    }
+    // if (!pageAnalysis || !imageFilePath) {
+    //     throw "Report não recebido";
+    // }
 
-    res.status(201).send(pageAnalysis);
+    res.status(201).send("Geração de relatório triggada");
 });
 
 export default app;
