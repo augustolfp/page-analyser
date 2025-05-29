@@ -3,12 +3,6 @@ import puppeteer from "puppeteer";
 import scrollToBottom from "scroll-to-bottomjs";
 import shortid from "shortid";
 
-function delay(time: number) {
-    return new Promise(function (resolve) {
-        setTimeout(resolve, time);
-    });
-}
-
 export async function scrapePageData(url: string) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -35,13 +29,16 @@ export async function scrapePageData(url: string) {
         window.scrollTo(0, 0);
     `);
 
-    const resultFilePath = `scrapingResults/${shortid.generate()}.png`;
-    await page.screenshot({
-        path: resultFilePath,
+    const filenameWithPath = `scrapingResults/${shortid.generate()}`;
+
+    const screenshotOptions: puppeteer.ScreenshotOptions = {
+        path: `${filenameWithPath}.png`,
         fullPage: true,
-    });
+    };
+
+    await page.screenshot(screenshotOptions);
 
     await browser.close();
 
-    return resultFilePath;
+    return `${filenameWithPath}.png`;
 }
