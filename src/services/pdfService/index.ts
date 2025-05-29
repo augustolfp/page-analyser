@@ -50,6 +50,7 @@ export default async function createPdf(fileName: string, content: string) {
     doc.fontSize(normalText.size).text(
         openAiResultExample.pontosPositivos.textoInicial,
     );
+    doc.list(openAiResultExample.pontosPositivos.listaPontosPositivos);
 
     doc.moveDown();
 
@@ -57,6 +58,7 @@ export default async function createPdf(fileName: string, content: string) {
     doc.fontSize(normalText.size).text(
         openAiResultExample.pontosNegativos.textoInicial,
     );
+    doc.list(openAiResultExample.pontosNegativos.listaPontosNegativos);
 
     doc.moveDown();
 
@@ -64,6 +66,7 @@ export default async function createPdf(fileName: string, content: string) {
     doc.fontSize(normalText.size).text(
         openAiResultExample.sugestoesMelhorias.textoInicial,
     );
+    doc.list(openAiResultExample.sugestoesMelhorias.listaSugestoesMelhorias);
 
     doc.moveDown();
 
