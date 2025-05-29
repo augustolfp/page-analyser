@@ -5,4 +5,4 @@ dist/
 scrapingResults/*.png
 generatedReports/*.pdf
 
-openAiResultExample.json
+openAiResultExample.ts
