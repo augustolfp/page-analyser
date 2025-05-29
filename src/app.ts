@@ -3,13 +3,14 @@ import { getPageReport } from "./services/pageReportService/index.js";
 import cors from "cors";
 import sendEmail from "./services/emailService/index.js";
 import ora from "ora";
+import { RequestBodyFormat } from "./schemas/requestBodySchema.js";
 
 const app = express();
 app.use(express.json(), cors());
 
 app.post("/analysis", async (req: Request, res: Response) => {
     const { urlRestaurante, nomeRestaurante, emailCliente, nomeCliente } =
-        req.body;
+        RequestBodyFormat.parse(req.body);
 
     res.status(201).send(
         "Geração de relatório iniciada com sucesso. O resultado será recebido via e-mail.",
